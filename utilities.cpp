@@ -46,4 +46,75 @@ void split_string(string s, vector<string>& words, char delimiter)
 	words.push_back(word);
 }
 
+bool is_number(const std::string& s)
+{
+	std::string::const_iterator it = s.begin();
+
+	if (*it == '-')
+	{
+		it++;
+	}
+
+	while (it != s.end() && isdigit(*it))
+	{
+		++it;
+	}
+	return !s.empty() && it == s.end();
+}
+
 //MATH OPERATIONS
+int32_t evaluate_rpn(vector<string> tokens)
+{
+	int32_t result = 0;
+
+	if (tokens.size() == 0)
+	{
+		return result;
+	}
+
+	stack<int32_t> operands;
+
+	for (size_t i = 0; i < tokens.size(); i++)
+	{
+		if(tokens[i] == "+" || tokens[i] == "-" || tokens[i] == "*" || tokens[i] == "/")
+		{
+			assert(operands.size() >= 2);
+
+			int32_t right_op = operands.top();
+			operands.pop();
+
+			int32_t left_op = operands.top();
+			operands.pop();
+
+			if (tokens[i] == "+")
+			{
+				result = left_op + right_op;
+			}
+			else if (tokens[i] == "-")
+			{
+				result = left_op - right_op;
+			}
+			else if (tokens[i] == "*")
+			{
+				result = left_op * right_op;
+			}
+			else if (tokens[i] == "/")
+			{
+				result = left_op / right_op;
+			}
+			operands.push(result);
+		}
+		else if (is_number(tokens[i]))
+		{
+			operands.push(stoi(tokens[i], NULL, 10));
+		}
+		else
+		{
+			assert(0);
+		}
+	}
+
+	assert(operands.size() == 1);
+	
+	return(operands.top());
+}

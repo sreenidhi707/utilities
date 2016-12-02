@@ -62,7 +62,36 @@ bool is_number(const std::string& s)
 	return !s.empty() && it == s.end();
 }
 
+int64_t string_to_integer(const char* s)
+{
+	uint32_t multiplier = 1;
+	int32_t integer = 0;
+	for (size_t i = strlen(s) - 1; i > 0; i--)
+	{
+		uint8_t digit = s[i] - '0';
+		integer += digit * multiplier;
+		multiplier *= 10;
+	}
+
+	//Handle s[0] separately
+	if (s[0] == '-')
+	{
+		return -integer;
+	}
+	else
+	{
+		uint8_t digit = s[0] - '0';
+		integer += digit * multiplier;
+		return integer;
+	}
+}
+
 //MATH OPERATIONS
+uint64_t sum_of_n_squared(uint64_t n)
+{
+	return (n*(n + 1)*(2 * n + 1)) / 6;
+}
+
 int32_t evaluate_rpn(vector<string> tokens)
 {
 	int32_t result = 0;

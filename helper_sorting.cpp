@@ -4,10 +4,10 @@
 
 #include "helper_sorting.h"
 
-void key_indexed_sorting_string(vector<helper_string>& list)
+void key_indexed_sorting_string(vector<helper_string>& list, uint32_t radix)
 {
-	vector<uint32_t> freq_counts(list.size(), 0);
-	vector<uint32_t> starting_positions(list.size(), 0);
+	vector<uint32_t> freq_counts(radix, 0);
+	vector<uint32_t> starting_positions(radix, 0);
 
 	//Compute frequency counts
 	for (size_t i = 0; i < list.size(); i++)
@@ -16,7 +16,7 @@ void key_indexed_sorting_string(vector<helper_string>& list)
 	}
 
 	//Compute starting positions
-	for (size_t i = 1; i < freq_counts.size(); i++) //Note starting index is 1
+	for (size_t i = 1; i < radix; i++) //Note starting index is 1
 	{
 		starting_positions[i] = starting_positions[i - 1] + freq_counts[i - 1];
 	}
